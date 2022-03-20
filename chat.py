@@ -14,15 +14,26 @@ import gevent
 from flask import Flask, render_template
 from flask_sockets import Sockets
 
-REDIS_URL = os.environ['REDIS_URL']
+# REDIS_URL = os.environ['REDISTOGO_URL', 'redis://localhost:8000']
 REDIS_CHAN = 'chat'
+
+# redis://redistogo:bf2886f0eaf59929fd616105d69e12d1@sole.redistogo.com:10615/
+REDISTOGO_URL = os.getenv('REDISTOGO_URL', None)
+if REDISTOGO_URL == None:
+  REDIS_URL = '127.0.0.1:8000'
+else:
+  REDIS_URL = REDISTOGO_URL
+  REDIS_URL = REDIS_URL.split('redis://redistogo:')[1]
+  REDIS_URL = REDIS_URL.split('/')[0]
+  REDIS_PWD, REDIS_HOST = REDIS_URL.split('@', 1)
+  REDIS_URL = "%s?password=%s" % (REDIS_HOST, REDIS_PWD)
+session_opts = { 'session.type': 'redis', 'session.url': REDIS_URL, 'session.data_dir': './cache/', 'session.key': 'appname', 'session.auto': True, }
 
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
 
 sockets = Sockets(app)
 redis = redis.from_url(REDIS_URL)
-
 
 
 class ChatBackend(object):
