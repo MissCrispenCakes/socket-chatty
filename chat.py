@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+
 """
 Chat Server
-===========
+=============
 
 This simple application uses WebSockets to run a primitive chat server.
 """
