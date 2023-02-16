@@ -12,7 +12,7 @@ MarkupSafe==2.1.1
 packaging==21.3
 pyparsing==3.0.7
 redis==4.1.4
-Werkzeug==2.0.3
+Werkzeug==2.2.3
 wrapt==1.14.0
 zope.event==4.5.0
 zope.interface==5.4.0
